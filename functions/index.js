@@ -107,11 +107,6 @@ app.post("/creatUser", async (req, res) => {
   }
 });
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  // functions.logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
-});
-
 app.get("/getUsers", async (req, res, next) => {
   await userRef.get().then((value) => {
     const data = value.docs.map((doc) => doc.data());
