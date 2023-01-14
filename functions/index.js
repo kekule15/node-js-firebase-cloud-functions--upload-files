@@ -112,4 +112,27 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   response.send("Hello from Firebase!");
 });
 
+app.get("/getUsers", async (req, res, next) => {
+  await userRef.get().then((value) => {
+    const data = value.docs.map((doc) => doc.data());
+    res.status(200).send({
+      message: "Fetched all users",
+      data: data,
+    });
+  });
+});
+
+app.get("/getUser/:id", async (req, res, next) => {
+  await userRef
+    .where("id", "==", req.params.id)
+    .get()
+    .then((value) => {
+      const data = value.docs.map((doc) => doc.data());
+      res.status(200).send({
+        message: "User retrieved ",
+        data: data,
+      });
+    });
+});
+
 exports.api = functions.https.onRequest(app);
